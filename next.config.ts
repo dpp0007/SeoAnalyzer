@@ -3,6 +3,8 @@ import type { NextConfig } from "next";
 const config: NextConfig = {
   distDir: process.env.NEXT_DIST_DIR || ".next",
   serverExternalPackages: ["playwright-core", "mongodb"],
+  // playwright-core reads browsers.json at load; the tracer misses it, so ship it explicitly.
+  outputFileTracingIncludes: { "/api/**/*": ["./node_modules/playwright-core/*.json"] },
   poweredByHeader: false,
   allowedDevOrigins: ["127.0.0.1", "localhost"],
   async headers() {
